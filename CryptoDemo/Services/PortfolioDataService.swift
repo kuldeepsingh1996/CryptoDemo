@@ -18,11 +18,11 @@ class PortfolioDataService {
     
     init() {
         self.container = NSPersistentContainer(name: containerName)
-        container.loadPersistentStores { _, error in
+        container.loadPersistentStores { [weak self] _, error in
             if let error = error {
                 print("error Loading data:\(error.localizedDescription)")
             }
-            getPortfolio()
+            self?.getPortfolio()
         }
     }
     

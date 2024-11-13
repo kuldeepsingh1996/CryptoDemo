@@ -51,12 +51,12 @@ extension PortfolioView {
     private var coinLogoList : some View {
         ScrollView(.horizontal,showsIndicators: false) {
             LazyHStack(spacing:10) {
-                ForEach(vm.allCoins) { coin in
+                ForEach(vm.searchText.isEmpty ? vm.portfolioCoins : vm.allCoins) { coin in
                    CoinLogoView(coin: coin)
                         .frame(width:75)
                         .padding(4)
                         .onTapGesture {
-                            selectedCoin = coin
+                            updateSelectedCoin(coin: coin)
                         }
                         .background(
                             RoundedRectangle(cornerRadius: 15)
@@ -66,6 +66,15 @@ extension PortfolioView {
             }
             .frame(height:120)
             .padding(.leading)
+        }
+    }
+    
+    private func updateSelectedCoin(coin:CoinModel) {
+        selectedCoin = coin
+        if let portfolioCoin = vm.portfolioCoins.first(where: {$0.id == coin.id}) , let amount = portfolioCoin.currentHoldings {
+            quantityText = "\(amount)"
+        }else {
+            quantityText = ""
         }
     }
     
@@ -124,12 +133,12 @@ extension PortfolioView {
     }
     
     private func saveButtonPressed() {
-        guard let coin = selectedCoin else{
+        guard let coin = selectedCoin, let amount = Double(quantityText) else{
             return
         }
         
         //Save to portfolio
-        
+        vm.updatePortfolio(coin: coin, amount: amount)
         //show checkmark
         withAnimation(.easeIn) {
             showCheckmark = true
