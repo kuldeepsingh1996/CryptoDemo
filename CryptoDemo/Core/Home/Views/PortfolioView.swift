@@ -143,6 +143,7 @@ extension PortfolioView {
         withAnimation(.easeIn) {
             showCheckmark = true
             removeSelectedCoin()
+            vm.searchText = ""
         }
         
         //hide keyboard
@@ -161,6 +162,5 @@ extension PortfolioView {
     
     func removeSelectedCoin(){
         selectedCoin = nil
-        vm.searchText = ""
     }
 }
