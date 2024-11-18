@@ -39,17 +39,19 @@ struct DetailView: View {
                 overViewTitle
                 Divider()
                 overViewGrid
-                
                 additionalTitle
                 Divider()
                 additionalGrid
-                
-                
             }
             .padding()
         }
-        .navigationTitle(vm.coin.name)
         
+        .navigationTitle(vm.coin.name)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                navigationBarTrailingItems
+            }
+        }
     }
 }
 
@@ -61,6 +63,16 @@ struct DetailView: View {
 
 extension DetailView  {
     
+    private var navigationBarTrailingItems : some View {
+        HStack {
+            Text(vm.coin.symbol.uppercased())
+                .font(.headline)
+                .foregroundStyle(Color.theme.accent)
+            CoinImageView(coin: vm.coin)
+                .frame(width: 25,height: 25)
+        }
+       
+    }
     private var overViewTitle : some View {
         Text("Overview")
             .font(.title)

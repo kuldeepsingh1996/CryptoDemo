@@ -30,7 +30,6 @@ class DetailViewModel : ObservableObject {
             .sink { [weak self] returnedArrays in
                 self?.overViewStatics = returnedArrays.overView
                 self?.additionalStatics = returnedArrays.additional
-               
             }
             .store(in: &cancelAbales)
     }
